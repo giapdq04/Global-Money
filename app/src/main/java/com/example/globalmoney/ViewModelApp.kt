@@ -18,8 +18,8 @@ import java.time.format.DateTimeParseException
 import java.util.Locale
 
 class ViewModelApp : ViewModel() {
-    private val _currency = mutableStateOf(CurrencyResponse("", 0.0f))
-    val currency: State<CurrencyResponse> = _currency
+    private val _currency = mutableStateOf<CurrencyResponse?>(null)
+    val currency: State<CurrencyResponse?> = _currency
 
     fun currencyViewModel(currencyReq: CurrencyReq) {
         viewModelScope.launch {
@@ -29,6 +29,7 @@ class ViewModelApp : ViewModel() {
                     currencyReq.target_code
                 )
                 Log.d("TAG", "thanhcong: ${_currency.value}")
+                Log.d("TAG", "currency: ${currency.value}")
             } catch (e: Exception) {
                 Log.d("TAG", "thatbai: ${e.message}")
             }
@@ -39,7 +40,7 @@ class ViewModelApp : ViewModel() {
     fun convertUtcToVietNamTime(utcTime: String): String {
         return try {
             if (utcTime.isBlank()) {
-                "Invalid UTC time"
+                ""
             } else {
                 val formatter =
                     DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH)
