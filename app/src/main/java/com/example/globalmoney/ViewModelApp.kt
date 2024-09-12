@@ -29,7 +29,6 @@ class ViewModelApp : ViewModel() {
                     currencyReq.target_code
                 )
                 Log.d("TAG", "thanhcong: ${_currency.value}")
-                Log.d("TAG", "currency: ${currency.value}")
             } catch (e: Exception) {
                 Log.d("TAG", "thatbai: ${e.message}")
             }
@@ -39,17 +38,20 @@ class ViewModelApp : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertUtcToVietNamTime(utcTime: String): String {
         return try {
+
+            // nếu utc trống thì trả về chuỗi rỗng
             if (utcTime.isBlank()) {
                 ""
             } else {
                 val formatter =
                     DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH)
                 val zonedDateTime = ZonedDateTime.parse(utcTime, formatter)
-                val vietnamTime = zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Ho_Chi_Minh"))
+                val vietnamTime =
+                    zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Ho_Chi_Minh"))
                 vietnamTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
             }
         } catch (e: DateTimeParseException) {
-            "Invalid UTC time format"
+            "Định dạng thời gian không hợp lệ"
         }
     }
 }
