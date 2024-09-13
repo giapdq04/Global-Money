@@ -1,7 +1,7 @@
 package com.example.globalmoney.service
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://v6.exchangerate-api.com/v6/2657cf92bb48d633c9a37c16/pair/"
+    private const val BASE_URL = "https://v6.exchangerate-api.com/v6/2657cf92bb48d633c9a37c16/"
 
     val apiService: ApiService by lazy {
         retrofit2.Retrofit.Builder()

@@ -13,12 +13,19 @@ data class CurrencyReq(
     val target_code: String,
 )
 
+data class SupportedCode(
+    val supported_codes: List<List<String>>
+)
+
 interface ApiService {
 
-    @GET("{base_code}/{target_code}")
+    @GET("pair/{base_code}/{target_code}")
     suspend fun getCurrencies(
         @Path("base_code") baseCode: String,
         @Path("target_code") targetCode: String
     ): CurrencyResponse
+
+    @GET("codes")
+    suspend fun getSupportedCodes(): SupportedCode
 
 }

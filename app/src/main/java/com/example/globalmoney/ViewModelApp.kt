@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.globalmoney.service.CurrencyReq
 import com.example.globalmoney.service.CurrencyResponse
 import com.example.globalmoney.service.RetrofitInstance
+import com.example.globalmoney.service.SupportedCode
 import kotlinx.coroutines.launch
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -34,6 +35,22 @@ class ViewModelApp : ViewModel() {
             }
         }
     }
+
+    private val _code = mutableStateOf<SupportedCode?>(null)
+    val code: State<SupportedCode?> = _code
+
+    fun codeViewModel() {
+        viewModelScope.launch {
+            try {
+                _code.value = RetrofitInstance.apiService.getSupportedCodes()
+                Log.d("TAG", "thanhcong: ${_code.value}")
+            } catch (e: Exception) {
+                Log.d("TAG", "thatbai: ${e.message}")
+            }
+        }
+    }
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertUtcToVietNamTime(utcTime: String): String {
